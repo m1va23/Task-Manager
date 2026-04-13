@@ -55,24 +55,24 @@ def delete_task(name_tasks, task):
     with open('tasks/test.json', 'w', encoding='utf-8') as file:
         data = json.dump(data, file, indent=4)
 
-def delete_task_vocab(name_tasks):
-    with open("tasks/test.json", 'r', encoding='utf-8') as file:
-        data = json.load(file)
-    
-    del data[name_tasks]
+def compl_tasks(name_task):
+    completed_tasks = []
+    completed_tasks.append(name_task)
+    return completed_tasks
 
-    with open('tasks/test.json', 'w', encoding='utf-8') as file:
-        data = json.dump(data, file, indent=4)
+complited_vocab = {}
 
 while True:
+
     command = int(input('''
 1 - Создать первый файл с задачами
 2 - Создать задачу или файл
 3 - Просмотреть все задачи
-4 - Очистить задачи
-5 - Просмотреть выполненные задачи
+4 - Удалить все файлы
+5 - Отметить задачу выполненной 
+6 - Просмотреть выполненные задачи
 \n'''))
-    
+
     match command:
         case 1:
             name_task_file = input('Введите файл для задач: ')
@@ -86,6 +86,21 @@ while True:
         case 2:
             operation = input('Что вы хотите создать(Файл/Задача): ')
             append_task(operation)
+
         case 3:
             name_file = input('Введите имя файла для просмотра задач: ')
             print(read_task(name_file))
+
+        case 4:
+            clear_task()
+            print('Все файлы с задачами удалены удалены')
+
+        case 5:
+            name_file = input('Введите имя файла, где хранится задача: ')
+            print(read_task(name_file) + '\n')
+            name_task = input('Введите задачу которую хотите пометить выполненной: ')
+            delete_task(name_file, name_task)
+            complited_vocab[name_file] = [name_task]
+        case 6:
+            name_task_file = input('Введите название файла для просмотра выполненных задач: ')
+            print(' '.join(complited_vocab[name_task_file]))
